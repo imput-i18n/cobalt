@@ -21,8 +21,14 @@ this document is not final and will expand over time. feel free to improve it!
 | name                | default   | value example                         |
 |:--------------------|:----------|:--------------------------------------|
 | API_LISTEN_ADDRESS  | `0.0.0.0` | `127.0.0.1`                           |
-| API_EXTERNAL_PROXY  |           | `http://user:password@127.0.0.1:8080` |
 | FREEBIND_CIDR       |           | `2001:db8::/32`                       |
+
+#### undici proxy vars
+| name        | value example                         |
+|:------------|:--------------------------------------|
+| HTTP_PROXY  | `http://user:password@10.0.0.1:1337/` |
+| HTTPS_PROXY | `https://10.0.0.2:1337/`              |
+| NO_PROXY    | `localhost`                           |
 
 [*view details*](#networking)
 
@@ -62,6 +68,7 @@ this document is not final and will expand over time. feel free to improve it!
 | YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
 | YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
 | ENABLE_DEPRECATED_YOUTUBE_HLS    | `key`                    |
+| YOUTUBE_PLAYER_ID                | `abcdefff`               |
 
 [*view details*](#service-specific)
 
@@ -123,10 +130,23 @@ defines the local address for the api instance. if you are using a docker contai
 
 the value is a local IP address.
 
-### API_EXTERNAL_PROXY
-URL of the proxy that will be passed to [`ProxyAgent`](https://undici.nodejs.org/#/docs/api/ProxyAgent) and used for all external requests. HTTP(S) only.
+### HTTP_PROXY, HTTPS_PROXY, NO_PROXY
+URL of the proxy that will be passed to [`EnvHttpProxyAgent`](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent) for proxying external requests. if some cobalt functionality breaks when using a proxy, please [make a new issue](https://github.com/imputnet/cobalt/issues) about it!
 
-if some feature breaks when using a proxy, please make a new issue about it!
+quoted from [undici docs](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent):
+> When `HTTP_PROXY` and `HTTPS_PROXY` are set, `HTTP_PROXY` is used for HTTP requests and `HTTPS_PROXY` is used for HTTPS requests. If only `HTTP_PROXY` is set, `HTTP_PROXY` is used for both HTTP and HTTPS requests. If only `HTTPS_PROXY` is set, it is only used for HTTPS requests.
+
+> `NO_PROXY` is a comma or space-separated list of hostnames that should not be proxied. The list may contain leading wildcard characters (`*`). If `NO_PROXY` is set, the EnvHttpProxyAgent() will bypass the proxy for requests to hosts that match the list. If `NO_PROXY` is set to `"*"`, the EnvHttpProxyAgent() will bypass the proxy for all requests.
+
+the value is a string:
+- `HTTP_PROXY`/`HTTPS_PROXY`: URL or hostname.
+- `NO_PROXY`: comma or space-separated list of hostnames.
+
+### API_EXTERNAL_PROXY (deprecated)
+> [!WARNING]
+> this env variable is deprecated and will be removed in a future release. please update your configuration to use `HTTP_PROXY` or `HTTPS_PROXY`, as mentioned above.
+
+URL of the proxy that will be passed to [`EnvHttpProxyAgent`](https://undici.nodejs.org/#/docs/api/EnvHttpProxyAgent) and used for proxying external requests. HTTP(S) only.
 
 the value is a URL.
 
@@ -249,6 +269,13 @@ the value is a URL.
 
 ### YOUTUBE_SESSION_INNERTUBE_CLIENT
 innertube client that's compatible with botguard's (web) `poToken` and `visitor_data`.
+
+the value is a string.
+
+### YOUTUBE_PLAYER_ID
+a comma-separated-list of player IDs to use for youtube fetching.
+if defined, cobalt chooses one of them at each client initialization, otherwise
+defaults to the current latest player ID.
 
 the value is a string.
 

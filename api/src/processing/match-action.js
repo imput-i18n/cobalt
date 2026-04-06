@@ -103,7 +103,6 @@ export default function({
                 case "twitter":
                 case "snapchat":
                 case "bsky":
-                case "xiaohongshu":
                     params = { picker: r.picker };
                     break;
 
@@ -145,6 +144,7 @@ export default function({
                     params = { type: r.type };
                     break;
 
+                case "rutube":
                 case "vimeo":
                     if (Array.isArray(r.urls)) {
                         params = { type: "merge" };
@@ -179,7 +179,7 @@ export default function({
                     break;
 
                 case "ok":
-                case "xiaohongshu":
+                case "newgrounds":
                     params = { type: "proxy" };
                     break;
 
@@ -263,8 +263,9 @@ export default function({
 
     // extractors usually return ISO 639-1 language codes,
     // but video players expect ISO 639-2, so we convert them here
-    if (defaultParams.fileMetadata?.sublanguage?.length === 2) {
-        const code = convertLanguageCode(defaultParams.fileMetadata.sublanguage);
+    const sublanguage = defaultParams.fileMetadata?.sublanguage;
+    if (sublanguage && sublanguage.length !== 3) {
+        const code = convertLanguageCode(sublanguage);
         if (code) {
             defaultParams.fileMetadata.sublanguage = code;
         } else {

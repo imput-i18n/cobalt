@@ -28,7 +28,7 @@ import snapchat from "./services/snapchat.js";
 import loom from "./services/loom.js";
 import facebook from "./services/facebook.js";
 import bluesky from "./services/bluesky.js";
-import xiaohongshu from "./services/xiaohongshu.js";
+import newgrounds from "./services/newgrounds.js";
 
 let freebind;
 
@@ -259,12 +259,10 @@ export default async function({ host, patternMatch, params, authType }) {
                 });
                 break;
 
-            case "xiaohongshu":
-                r = await xiaohongshu({
+            case "newgrounds":
+                r = await newgrounds({
                     ...patternMatch,
-                    h265: params.allowH265,
-                    isAudioOnly,
-                    dispatcher,
+                    quality: params.videoQuality,
                 });
                 break;
 
@@ -314,7 +312,7 @@ export default async function({ host, patternMatch, params, authType }) {
         let localProcessing = params.localProcessing;
         const lpEnv = env.forceLocalProcessing;
         const shouldForceLocal = lpEnv === "always" || (lpEnv === "session" && authType === "session");
-        const localDisabled = (!localProcessing || localProcessing === "none");
+        const localDisabled = (!localProcessing || localProcessing === "disabled");
 
         if (shouldForceLocal && localDisabled) {
             localProcessing = "preferred";

@@ -23,6 +23,7 @@ if the desired service isn't supported yet, feel free to create an appropriate i
 | instagram         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | facebook          | ✅            | ❌         | ✅         | ➖         | ➖              |
 | loom              | ✅            | ❌         | ✅         | ✅         | ➖              |
+| newgrounds        | ✅            | ✅         | ✅         | ✅         | ✅              |
 | ok.ru             | ✅            | ❌         | ✅         | ✅         | ✅              |
 | pinterest         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | reddit            | ✅            | ✅         | ✅         | ❌         | ❌              |
@@ -36,7 +37,6 @@ if the desired service isn't supported yet, feel free to create an appropriate i
 | twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
 | vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
 | vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
-| xiaohongshu       | ✅            | ✅         | ✅         | ➖         | ➖              |
 | youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
 
 | emoji   | meaning                 |
